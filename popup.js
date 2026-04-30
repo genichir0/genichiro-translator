@@ -139,33 +139,41 @@ copyBtn.addEventListener('click', () => {
 });
 
 
-// تحسين أداء الكتابة لمنع الثقل في فايرفوكس
+// متغيرات للتحكم في الأداء
 let typingTimer;
-let lastValue = ""; // متغير لحفظ آخر قيمة تم ترجمتها
-const doneTypingInterval = 800; // زيادة التأخير لـ 800ms لضمان سلاسة الكتابة في فايرفوكس
+let lastTranslatedValue = ""; // لحفظ آخر نص تم معالجته بنجاح
+const doneTypingInterval = 850; // زيادة التأخير قليلاً لراحة متصفح فايرفوكس
 
 chatInput.addEventListener('input', () => {
     const currentValue = chatInput.value.trim();
-    
-    // إذا لم يتغير النص (مثلاً ضغطت shift أو سهم)، لا تفعل شيئاً
-    if (currentValue === lastValue) return;
 
-    // تحديث نص الحالة فقط بدون تغييرات بصرية ثقيلة
+    // 1. منع المعالجة إذا كان النص هو نفسه (تجنب العمليات الزائدة)
+    if (currentValue === lastTranslatedValue) return;
+
+    // 2. تحديث الحالة فوراً بنص خفيف (بدون عمليات CSS ثقيلة)
     statusText.innerText = "Typing...";
     
     clearTimeout(typingTimer);
-    
+
+    // 3. استخدام Debounce لانتظار توقف المستخدم عن الكتابة
     typingTimer = setTimeout(() => {
         if (currentValue) {
-            lastValue = currentValue; // تحديث آخر قيمة
+            lastTranslatedValue = currentValue;
+
+            /**
+             * استخدام requestIdleCallback (خاص بفايرفوكس والكروم الحديث)
+             * يضمن تنفيذ الترجمة فقط عندما يكون المتصفح غير مشغول برسم الواجهة أو معالجة المدخلات
+             */
+            const scheduleTask = window.requestIdleCallback || window.requestAnimationFrame;
             
-            // استخدام requestIdleCallback إذا كان متاحاً (مدعوم بقوة في فايرفوكس)
-            // ليتم تنفيذ الترجمة عندما يكون المتصفح في حالة خمول
-            const scheduler = window.requestIdleCallback || window.requestAnimationFrame;
-            
-            scheduler(() => {
+            scheduleTask(() => {
                 translateText(currentValue);
             });
+        } else {
+            // تنظيف الواجهة إذا مسح المستخدم النص
+            output.innerText = "...";
+            details.innerHTML = "المفردات ستظهر هنا";
+            updateStatus("Ready", "ready");
         }
     }, doneTypingInterval);
 });
