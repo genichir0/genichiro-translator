@@ -1,3 +1,15 @@
+
+const api = typeof browser !== "undefined" ? browser : chrome;
+
+
+api.storage.local.get(['translateText']).then((result) => {
+    if (result.translateText) {
+        chatInput.value = result.translateText;
+        translateText(result.translateText);
+        api.storage.local.remove('translateText');
+    }
+});
+
 const chatInput = document.getElementById('chatInput');
 const output = document.getElementById('output');
 const details = document.getElementById('details');
