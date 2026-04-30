@@ -6,25 +6,15 @@ const statusArea = document.getElementById('status-area');
 const pasteBtn = document.getElementById('pasteBtn');
 const copyBtn = document.getElementById('copyBtn');
 
-/**
- * تحديث حالة الواجهة (Ready, Typing, Translating)
- */
 function updateStatus(msg, state) {
     statusText.innerText = msg;
     statusArea.classList.remove('loading', 'success');
-    
-    if (state === 'loading') {
-        statusArea.classList.add('loading');
-    } else if (state === 'success') {
-        statusArea.classList.add('success');
-    }
+    if (state === 'loading') statusArea.classList.add('loading');
+    if (state === 'success') statusArea.classList.add('success');
 }
 
-/**
- * دالة الترجمة وجلب المفردات
- */
 async function translateText(text) {
-    if (!text) {
+    if (!text || text.trim() === "") {
         output.innerText = "...";
         details.innerHTML = "المفردات ستظهر هنا";
         updateStatus("Ready", "ready");
@@ -36,8 +26,8 @@ async function translateText(text) {
     const isArabic = /[\u0600-\u06FF]/.test(text);
     const targetLang = isArabic ? 'en' : 'ar';
     
-    // dt=t للترجمة الأساسية، dt=md للمفردات والقاموس
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&dt=md&q=${encodeURIComponent(text)}`;
+    // الرابط يتضمن جميع المعايير اللازمة لجلب البيانات التفصيلية
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&dt=md&dt=rw&dt=bd&q=${encodeURIComponent(text)}`;
 
     try {
         const response = await fetch(url);
@@ -48,83 +38,59 @@ async function translateText(text) {
             output.innerText = data[0][0][0];
         }
 
-        // 2. معالجة وعرض المفردات (Synonyms)
-        // البيانات القاموسية تتواجد في data[1]
-        if (data[1] && Array.isArray(data[1])) {
+        // 2. البحث عن المرادفات (القاموس) في كامل المصفوفة
+        let dictionarySection = null;
+        
+        // نبحث في المصفوفة عن الجزء الذي يحتوي على تصنيفات الكلام (اسم، فعل..)
+        for (let i = 1; i < data.length; i++) {
+            if (Array.isArray(data[i]) && data[i][0] && typeof data[i][0][0] === 'string') {
+                dictionarySection = data[i];
+                break;
+            }
+        }
+
+        if (dictionarySection) {
             let synonymsHTML = "";
-            
-            data[1].forEach(section => {
-                const partOfSpeech = section[0]; // نوع الكلمة (Noun, Verb, etc.)
-                if (section[2] && Array.isArray(section[2])) {
-                    // نأخذ أول 4 مرادفات لكل نوع كلمة
-                    const words = section[2].slice(0, 4).map(item => item[0]).join(', ');
-                    if (words) {
-                        synonymsHTML += `
-                            <div style="margin-bottom: 10px; border-bottom: 1px solid #111; padding-bottom: 5px;">
-                                <div style="color: #666; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;">${partOfSpeech}</div>
-                                <div style="color: #aaa; font-size: 14px;">${words}</div>
-                            </div>`;
-                    }
+            dictionarySection.forEach(section => {
+                const partOfSpeech = section[0]; // Noun, Verb...
+                if (section[1] && Array.isArray(section[1])) {
+                    // استخراج الكلمات المترجمة البديلة
+                    const words = section[1].slice(0, 3).join(', ');
+                    synonymsHTML += `
+                        <div style="margin-top: 10px; border-left: 2px solid #333; padding-left: 8px;">
+                            <div style="color: #666; font-size: 10px; text-transform: uppercase;">${partOfSpeech}</div>
+                            <div style="color: #eee; font-size: 14px;">${words}</div>
+                        </div>`;
                 }
             });
-
-            details.innerHTML = synonymsHTML || (isArabic ? "No synonyms found" : "لا توجد مرادفات");
+            details.innerHTML = synonymsHTML;
         } else {
-            details.innerHTML = isArabic ? "No synonyms found" : "لا توجد مرادفات";
+            details.innerHTML = "لا توجد مرادفات متوفرة";
         }
 
         updateStatus("Ready", "success");
     } catch (err) {
-        console.error("Translation Error:", err);
-        updateStatus("Error", "loading");
+        console.error("Error:", err);
+        details.innerHTML = "خطأ في جلب البيانات";
     }
 }
 
-/**
- * زر اللصق والترجمة الفورية
- */
+// أزرار التحكم ومراقب الكتابة
 pasteBtn.addEventListener('click', async () => {
-    try {
-        const text = await navigator.clipboard.readText();
-        chatInput.value = text;
-        translateText(text.trim());
-    } catch (err) {
-        console.error("Clipboard access denied");
-    }
+    const text = await navigator.clipboard.readText();
+    chatInput.value = text;
+    translateText(text);
 });
 
-/**
- * زر النسخ للترجمة الناتجة
- */
 copyBtn.addEventListener('click', () => {
-    const textToCopy = output.innerText;
-    if (textToCopy && textToCopy !== "...") {
-        navigator.clipboard.writeText(textToCopy);
-        const originalText = copyBtn.innerText;
-        copyBtn.innerText = "COPIED!";
-        setTimeout(() => copyBtn.innerText = originalText, 2000);
-    }
+    navigator.clipboard.writeText(output.innerText);
+    copyBtn.innerText = "COPIED";
+    setTimeout(() => copyBtn.innerText = "COPY", 2000);
 });
 
-/**
- * الاستماع للكتابة مع مؤقت (Debounce) لتقليل طلبات API
- */
-let typingTimer;
+let timer;
 chatInput.addEventListener('input', () => {
-    clearTimeout(typingTimer);
+    clearTimeout(timer);
     updateStatus("Typing", "loading");
-    typingTimer = setTimeout(() => {
-        translateText(chatInput.value.trim());
-    }, 800); 
-});
-
-/**
- * استقبال النص من ميزة "قائمة السياق" (Context Menu) عند الفتح
- */
-chrome.storage.local.get(['translateText'], (result) => {
-    if (result.translateText) {
-        chatInput.value = result.translateText;
-        translateText(result.translateText);
-        chrome.storage.local.remove('translateText');
-    }
+    timer = setTimeout(() => translateText(chatInput.value), 800);
 });
