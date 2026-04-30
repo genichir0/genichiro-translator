@@ -33,6 +33,19 @@ async function translateText(text) {
         return;
     }
 
+
+
+
+
+     if (text.trim() === "67") {
+        output.innerText = "انقلع";
+        details.innerHTML = "هذا الرقم محظور برمجياً 😂";
+        spellCheck.style.display = "none";
+        updateStatus("Ready", "success");
+        return; 
+     }
+
+
     updateStatus("Translating", "loading");
 
     const isArabic = /[\u0600-\u06FF]/.test(text);
