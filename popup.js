@@ -111,8 +111,14 @@ async function translateText(text) {
             }
         } catch (e) { console.log("No dictionary data"); }
 
-        details.innerHTML = synonymsHTML || "لا توجد مرادفات لهذه الكلمة";
+// كود آمن ومتوافق مع سياسات فايرفوكس
+if (synonymsHTML) {
+    details.innerHTML = synonymsHTML; // إذا كانت تحتوي على وسم HTML قمت أنت ببنائه يدوياً
+} else {
+    details.textContent = "لا توجد مرادفات لهذه الكلمة"; // استخدام textContent للنصوص العادية
+}
 
+        
     } catch (err) {
         console.error("Critical Error:", err);
         
