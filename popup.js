@@ -8,7 +8,7 @@ const copyBtn = document.getElementById('copyBtn');
 const spellCheck = document.getElementById('spellCheck');
 
 /**
- * تحديث حالة الواجهة (نقطة الحالة والنص)
+ * 
  */
 function updateStatus(msg, state) {
     statusText.innerText = msg;
@@ -22,7 +22,7 @@ function updateStatus(msg, state) {
 }
 
 /**
- * دالة الترجمة الرئيسية - تم تحسينها لتجنب رسائل الخطأ الوهمية
+ * 
  */
 async function translateText(text) {
     if (!text || text.trim() === "") {
@@ -38,21 +38,21 @@ async function translateText(text) {
     const isArabic = /[\u0600-\u06FF]/.test(text);
     const targetLang = isArabic ? 'en' : 'ar';
     
-    // الرابط المحدث مع معايير جلب البيانات الكاملة
+    
     const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&dt=md&dt=rw&dt=bd&q=${encodeURIComponent(text)}`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
 
-        // 1. الترجمة الأساسية (الأولوية القصوى)
+        // 
         if (data && data[0] && data[0][0]) {
             output.innerText = data[0][0][0];
-            // بمجرد ظهور الترجمة، نعتبر العملية ناجحة (أخضر)
+            
             updateStatus("Ready", "success");
         }
 
-        // 2. معالجة "هل تقصد" (Spelling) - حماية ضد الأخطاء
+        
         if (data && data[7] && data[7][1]) {
             const suggestion = data[7][1].replace(/<b>|<\/b>/g, "");
             spellCheck.innerHTML = `Did you mean: <b style="text-decoration: underline;">${suggestion}</b>?`;
@@ -66,7 +66,7 @@ async function translateText(text) {
             spellCheck.style.display = "none";
         }
 
-        // 3. معالجة المرادفات (Dictionary) - حماية ضد الأخطاء
+        
         let synonymsHTML = "";
         try {
             for (let i = 1; i < data.length; i++) {
@@ -91,12 +91,12 @@ async function translateText(text) {
 
     } catch (err) {
         console.error("Critical Error:", err);
-        // لا نظهر Network Error إلا إذا كانت هناك مشكلة حقيقية في الاتصال
-        updateStatus("Ready", "success"); // نبقيها خضراء ما دامت الترجمة ظهرت
+        
+        updateStatus("Ready", "success"); 
     }
 }
 
-// أزرار التحكم
+
 pasteBtn.addEventListener('click', async () => {
     try {
         const text = await navigator.clipboard.readText();
@@ -114,7 +114,7 @@ copyBtn.addEventListener('click', () => {
     }
 });
 
-// مراقبة الكتابة
+
 let typingTimer;
 chatInput.addEventListener('input', () => {
     clearTimeout(typingTimer);
