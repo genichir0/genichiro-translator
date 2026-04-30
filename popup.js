@@ -39,7 +39,6 @@ async function translateText(text) {
 
      if (text.trim() === "67") {
         output.innerText = "انقلع";
-        details.innerHTML = "هذا الرقم محظور برمجياً 😂";
         spellCheck.style.display = "none";
         updateStatus("Ready", "success");
         return; 
