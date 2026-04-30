@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Genichiro Translator</title>
     <style>
-        /* التنسيق العام المستوحى من Nothing OS */
+        
         body { 
             width: 350px; 
             background-color: #000; 
@@ -14,7 +14,7 @@
             padding: 20px; 
         }
         
-        /* العنوان مع الكلمة الصغيرة */
+        
         .title { 
             text-align: center; 
             font-size: 22px; 
@@ -30,7 +30,7 @@
             font-weight: normal; 
         }
 
-        /* حاوية الإدخال */
+        
         .input-container { 
             position: relative; 
             margin-bottom: 5px; 
@@ -54,19 +54,19 @@
         textarea::placeholder { color: #333; text-align: center; }
         textarea:focus { outline: none; border-color: #333; }
 
-        /* ميزة "هل تقصد" - التصحيح الإملائي */
+    
         #spellCheck {
             color: #ff0000; 
             font-size: 11px; 
             margin-top: 8px; 
             cursor: pointer; 
-            display: none; /* مخفي افتراضياً */
+            display: none; 
             text-align: left;
             direction: ltr;
             letter-spacing: 0.5px;
         }
 
-        /* أزرار العمليات */
+        
         .btn-action {
             background: #1a1a1a;
             border: 1px solid #333;
@@ -81,7 +81,7 @@
         .btn-action:hover { background: #333; color: #fff; }
         .btn-paste { position: absolute; bottom: 8px; right: 8px; }
 
-        /* منطقة الحالة والنقطة */
+
         .status-area { 
             margin: 15px 0 40px 0; 
             display: flex; 
@@ -108,11 +108,11 @@
             transition: all 0.3s ease;
         }
 
-        /* حالات النقطة الذكية */
+        
         .status-area.loading .status-dot { background-color: #ff0000; box-shadow: 0 0 8px #ff0000; }
         .status-area.success .status-dot { background-color: #00ff00; box-shadow: 0 0 8px #00ff00; }
 
-        /* حاوية النتائج */
+        
         .result-container { 
             background-color: #050505; 
             border: 1px solid #111; 
@@ -135,7 +135,7 @@
 
         .btn-copy { position: absolute; bottom: 8px; left: 8px; }
 
-        /* عرض الترجمة والمرادفات */
+        
         #output { font-size: 20px; margin-bottom: 15px; color: #fff; line-height: 1.4; text-align: right; }
         #details { 
             font-size: 13px; 
@@ -171,7 +171,7 @@
         <button id="copyBtn" class="btn-action btn-copy">COPY</button>
     </div>
 
-    <!-- ربط ملف الجافاسكريبت -->
+    
     <script src="popup.js"></script>
 </body>
 </html>
