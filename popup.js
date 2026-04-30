@@ -77,45 +77,69 @@ async function translateText(text) {
         }
 
         
-        if (data && data[7] && data[7][1]) {
-            const suggestion = data[7][1].replace(/<b>|<\/b>/g, "");
-            spellCheck.innerHTML = `Did you mean: <b style="text-decoration: underline;">${suggestion}</b>?`;
-            spellCheck.style.display = "block";
-            spellCheck.onclick = () => {
-                chatInput.value = suggestion;
-                translateText(suggestion);
-                spellCheck.style.display = "none";
-            };
-        } else {
-            spellCheck.style.display = "none";
-        }
+
+
+      // --- تعديل السطر 82 (Did you mean) ---
+if (data && data[7] && data[7][1]) {
+    const suggestion = data[7][1].replace(/<b>|<\/b>/g, "");
+    spellCheck.textContent = `Did you mean: ${suggestion}?`; // استخدام textContent بدلاً من innerHTML
+    spellCheck.style.display = "block";
+    spellCheck.onclick = () => {
+        chatInput.value = suggestion;
+        translateText(suggestion);
+        spellCheck.style.display = "none";
+    };
+}
 
         
-        let synonymsHTML = "";
-        try {
-            for (let i = 1; i < data.length; i++) {
-                if (Array.isArray(data[i]) && data[i][0] && typeof data[i][0][0] === 'string') {
-                    data[i].forEach(section => {
-                        const type = section[0];
-                        if (section[1] && Array.isArray(section[1])) {
-                            const words = section[1].slice(0, 3).join(', ');
-                            synonymsHTML += `
-                                <div style="margin-top: 10px; border-left: 2px solid #333; padding-left: 8px;">
-                                    <div style="color: #666; font-size: 10px; text-transform: uppercase;">${type}</div>
-                                    <div style="color: #eee; font-size: 14px;">${words}</div>
-                                </div>`;
-                        }
-                    });
-                    break;
-                }
-            }
-        } catch (e) { console.log("No dictionary data"); }
+    // مسح المحتوى القديم بأمان قبل البدء
+details.textContent = "";
 
-// كود آمن ومتوافق مع سياسات فايرفوكس
-if (synonymsHTML) {
-    details.innerHTML = synonymsHTML; // إذا كانت تحتوي على وسم HTML قمت أنت ببنائه يدوياً
-} else {
-    details.textContent = "لا توجد مرادفات لهذه الكلمة"; // استخدام textContent للنصوص العادية
+try {
+    let hasSynonyms = false;
+    for (let i = 1; i < data.length; i++) {
+        if (Array.isArray(data[i]) && data[i][0] && typeof data[i][0][0] === 'string') {
+            data[i].forEach(section => {
+                const type = section[0];
+                if (section[1] && Array.isArray(section[1])) {
+                    const words = section[1].slice(0, 3).join(', ');
+                    hasSynonyms = true;
+
+                    // 1. إنشاء الحاوية الرئيسية للمرادف
+                    const container = document.createElement('div');
+                    container.style.marginTop = "10px";
+                    container.style.borderLeft = "2px solid #333";
+                    container.style.paddingLeft = "8px";
+
+                    // 2. إنشاء عنصر النوع (Type)
+                    const typeDiv = document.createElement('div');
+                    typeDiv.style.color = "#666";
+                    typeDiv.style.fontSize = "10px";
+                    typeDiv.style.textTransform = "uppercase";
+                    typeDiv.textContent = type; // استخدام textContent بدلاً من innerHTML
+
+                    // 3. إنشاء عنصر الكلمات (Words)
+                    const wordsDiv = document.createElement('div');
+                    wordsDiv.style.color = "#eee";
+                    wordsDiv.style.fontSize = "14px";
+                    wordsDiv.textContent = words; // استخدام textContent آمن برمجياً
+
+                    // 4. ربط العناصر ببعضها ثم بصندوق التفاصيل
+                    container.appendChild(typeDiv);
+                    container.appendChild(wordsDiv);
+                    details.appendChild(container);
+                }
+            });
+            break;
+        }
+    }
+
+    if (!hasSynonyms) {
+        details.textContent = "لا توجد مرادفات لهذه الكلمة";
+    }
+} catch (e) {
+    console.log("No dictionary data");
+    details.textContent = "خطأ في جلب البيانات";
 }
 
         
