@@ -139,23 +139,32 @@ copyBtn.addEventListener('click', () => {
 });
 
 
-// تحسين أداء الكتابة لمنع التعليق في فايرفوكس
+// تحسين أداء الكتابة لمنع الثقل في فايرفوكس
 let typingTimer;
-const doneTypingInterval = 500; // زيادة وقت التأخير قليلاً لراحة المتصفح
+let lastValue = ""; // متغير لحفظ آخر قيمة تم ترجمتها
+const doneTypingInterval = 800; // زيادة التأخير لـ 800ms لضمان سلاسة الكتابة في فايرفوكس
 
 chatInput.addEventListener('input', () => {
-    // تحديث الحالة فوراً بدون عمليات ثقيلة
+    const currentValue = chatInput.value.trim();
+    
+    // إذا لم يتغير النص (مثلاً ضغطت shift أو سهم)، لا تفعل شيئاً
+    if (currentValue === lastValue) return;
+
+    // تحديث نص الحالة فقط بدون تغييرات بصرية ثقيلة
     statusText.innerText = "Typing...";
     
     clearTimeout(typingTimer);
     
-    // استخدام Debounce لضمان عدم تنفيذ الترجمة مع كل حرف
     typingTimer = setTimeout(() => {
-        const text = chatInput.value.trim();
-        if (text) {
-            // تنفيذ الترجمة في الإطار القادم لتحرير المعالج للكتابة
-            window.requestAnimationFrame(() => {
-                translateText(text);
+        if (currentValue) {
+            lastValue = currentValue; // تحديث آخر قيمة
+            
+            // استخدام requestIdleCallback إذا كان متاحاً (مدعوم بقوة في فايرفوكس)
+            // ليتم تنفيذ الترجمة عندما يكون المتصفح في حالة خمول
+            const scheduler = window.requestIdleCallback || window.requestAnimationFrame;
+            
+            scheduler(() => {
+                translateText(currentValue);
             });
         }
     }, doneTypingInterval);
