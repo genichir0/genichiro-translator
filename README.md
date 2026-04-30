@@ -1,2 +1,2 @@
-# genichiro-translator
+# genichiro-translator مترجم محلي 
 
