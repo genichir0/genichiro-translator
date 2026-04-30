@@ -139,11 +139,24 @@ copyBtn.addEventListener('click', () => {
 });
 
 
+// تحسين أداء الكتابة لمنع التعليق في فايرفوكس
 let typingTimer;
+const doneTypingInterval = 500; // زيادة وقت التأخير قليلاً لراحة المتصفح
+
 chatInput.addEventListener('input', () => {
+    // تحديث الحالة فوراً بدون عمليات ثقيلة
+    statusText.innerText = "Typing...";
+    
     clearTimeout(typingTimer);
-    updateStatus("Typing", "loading");
+    
+    // استخدام Debounce لضمان عدم تنفيذ الترجمة مع كل حرف
     typingTimer = setTimeout(() => {
-        translateText(chatInput.value.trim());
-    }, 800); 
+        const text = chatInput.value.trim();
+        if (text) {
+            // تنفيذ الترجمة في الإطار القادم لتحرير المعالج للكتابة
+            window.requestAnimationFrame(() => {
+                translateText(text);
+            });
+        }
+    }, doneTypingInterval);
 });
