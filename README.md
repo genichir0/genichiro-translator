@@ -3,6 +3,15 @@
 حاليا باقي عل كروم 
 
 صور عشان تاخذ فكره
-<img width="375" height="439" alt="Pasted image (3)" src="https://github.com/user-attachments/assets/5e0d933c-7f16-48c1-a030-e99ecf5aaaba" />
-<img width="375" height="439" alt="Pasted image (2)" src="https://github.com/user-attachments/assets/c1fd9954-7b36-49e1-aff6-f69338f1f53f" />
-<img width="377" height="416" alt="Pasted image" src="https://github.com/user-attachments/assets/5ada0746-d78d-4c75-a094-40b40fa74756" />
+<p align="center">
+  <table>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/5e0d933c-7f16-48c1-a030-e99ecf5aaaba" width="350"></td>
+      <td><img src="https://github.com/user-attachments/assets/c1fd9954-7b36-49e1-aff6-f69338f1f53f" width="350"></td>
+    </tr>
+    <tr>
+      <td align="center"><b>ترجمة من الإنجليزية</b></td>
+      <td align="center"><b>ترجمة من العربية</b></td>
+    </tr>
+  </table>
+</p>
