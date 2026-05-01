@@ -2,10 +2,11 @@
  
 
 اللغات المدعومه عربي و انجليزي حاليا 
+<img width="3464" height="1948" alt="E4312F4B-FE7D-43CD-A78F-6432A29490A2" src="https://github.com/user-attachments/assets/129c28de-2e78-4f09-aa8d-6fb2dbf9e1eb" />
+<img width="3464" height="1948" alt="1C93B4B7-BDBB-4D5B-94E5-6DABB5AC28C7" src="https://github.com/user-attachments/assets/4fb3dde7-ac80-48cb-ae55-d554af4f8370" />
 
 
-<img width="3464" height="1948" alt="51D9E220-179A-4C7C-ABBF-D5D3F0BE030F" src="https://github.com/user-attachments/assets/e54ad693-855c-486f-b2c4-2907e21f9110" />
-<img width="3464" height="1948" alt="CCD82EE5-B065-4B49-B531-49280BBC66E0" src="https://github.com/user-attachments/assets/1a99f2c3-2cc0-460b-a810-e6a3b27ed1b4" />
+
 
 
 طريقة التثبيت للكروم :
