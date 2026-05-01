@@ -4,21 +4,12 @@
 
 اللغات المدعومه عربي و انجليزي حاليا 
 
-صور عشان تاخذ فكره:
-<p align="center">
-  <table>
-    <tr>
-      <td><img src="https://github.com/user-attachments/assets/5e0d933c-7f16-48c1-a030-e99ecf5aaaba" width="350"></td>
-      <td><img src="https://github.com/user-attachments/assets/c1fd9954-7b36-49e1-aff6-f69338f1f53f" width="350"></td>
-    </tr>
-    <tr>
-      <td align="center"><b>ترجمة من الإنجليزية</b></td>
-      <td align="center"><b>ترجمة من العربية</b></td>
-    </tr>
-  </table>
-</p>
+<img width="3464" height="1948" alt="CCD82EE5-B065-4B49-B531-49280BBC66E0" src="https://github.com/user-attachments/assets/1a99f2c3-2cc0-460b-a810-e6a3b27ed1b4" />
+<img width="3464" height="1948" alt="51D9E220-179A-4C7C-ABBF-D5D3F0BE030F" src="https://github.com/user-attachments/assets/e54ad693-855c-486f-b2c4-2907e21f9110" />
 
-طريقة التثبيت:
+
+
+طريقة التثبيت للكروم :
 
 تحمل بنسخة الzip و تفك الضغط عنه 
 
@@ -31,3 +22,26 @@
 بتحصل الاضافه شغاله عندك بس تحتاج تعطيها pin عشان تقدر توصل اسرع لها 
 
 تقولي ليه مب حاطها في متجر كروم حق الاضافات بدل السوالف ذي . عشاني مطفر و قوقل تطلب شروط و سالفه . و غير كذا انا vibecoded ts shit بس قعدت حول ثلاث ايام متواصله شغال عليه و الai اجبرني اتعلم منجد من كثر ما انه غبي
+
+
+طريقة التثبيت لفايرفوكس :
+
+حمل نسخة الzip و فكها 
+
+خش عل فايرفوكس و ادخل الرابط ذا
+
+about:debugging#/runtime/this-firefox
+
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fb4ad9ac-fd56-4837-8633-1d43306a94d9" />
+بيكون شكله كذا
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b4f8122b-388a-4166-a62e-002f06a1cea6" />
+
+خش في الملف و اختار manifest.json وبس
+
+
+
+
+
+
