@@ -5,10 +5,9 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "genichiro-translator@yourdomain.com",
-      "strict_min_version": "115.0",
+      "strict_min_version": "140.0",
       "data_collection_permissions": {
-        "technical_data": false,
-        "user_data": false
+        "required": []
       }
     }
   },
