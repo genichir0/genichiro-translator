@@ -23,23 +23,6 @@
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-طريقة التثبيت لفايرفوكس :
-
-حمل نسخة الzip و فكها 
-
-خش عل فايرفوكس و ادخل الرابط ذا
-
-about:debugging#/runtime/this-firefox
-
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fb4ad9ac-fd56-4837-8633-1d43306a94d9" />
-بيكون شكله كذا
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b4f8122b-388a-4166-a62e-002f06a1cea6" />
-
-خش في الملف و اختار manifest.json وبس
-
-
 
 
 
