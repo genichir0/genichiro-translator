@@ -3,8 +3,9 @@
 
 اللغات المدعومه عربي و انجليزي حاليا 
 
-<img width="3464" height="1948" alt="1C93B4B7-BDBB-4D5B-94E5-6DABB5AC28C7" src="https://github.com/user-attachments/assets/c1506f0f-8fd2-4eb6-828d-6e514a91734f" />
-<img width="3464" height="1948" alt="42C54435-750C-4F1B-9CF4-DD366FDB933B" src="https://github.com/user-attachments/assets/2ab11d4b-6cb4-4973-a704-a88e5b5fc78f" />
+<img width="1144" height="383" alt="IMG_9172" src="https://github.com/user-attachments/assets/b6be2ae0-c6a5-4b29-9218-ec7c49ff0e5e" />
+<img width="662" height="373" alt="IMG_9170" src="https://github.com/user-attachments/assets/7db90fef-6e09-4495-bea8-88de352bef9c" />
+<img width="695" height="391" alt="0FF49814-D182-4101-B00C-1EB05CEAEEC6" src="https://github.com/user-attachments/assets/fec7c8c5-b043-4a9a-b474-8c31f3da95ff" />
 
 
 
